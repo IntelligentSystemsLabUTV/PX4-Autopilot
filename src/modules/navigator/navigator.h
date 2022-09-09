@@ -305,6 +305,8 @@ public:
 	void		acquire_gimbal_control();
 	void		release_gimbal_control();
 
+  float   get_land_yaw() const { return _land_yaw; }
+
 private:
 	DEFINE_PARAMETERS(
 		(ParamFloat<px4::params::NAV_LOITER_RAD>) _param_nav_loiter_rad,	/**< loiter radius for fixedwing */
@@ -414,6 +416,8 @@ private:
 
 	bool _mission_landing_in_progress{false};	// this flag gets set if the mission is currently executing on a landing pattern
 	// if mission mode is inactive, this flag will be cleared after 2 seconds
+
+  float _land_yaw{0.0f};
 
 	// update subscriptions
 	void		params_update();
