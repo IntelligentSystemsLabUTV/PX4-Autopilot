@@ -288,6 +288,14 @@ void FlightTaskAuto::_prepareLandSetpoints()
 
 void FlightTaskAuto::_limitYawRate()
 {
+  // Do not touch anything upon landing
+  if (_type == WaypointType::land) {
+    _yaw_sp_aligned = true;
+    _yawspeed_setpoint = 0.0f;
+    _yaw_sp_prev = _yaw_setpoint;
+    return;
+  }
+
 	const float yawrate_max = math::radians(_param_mpc_yawrauto_max.get());
 
 	_yaw_sp_aligned = true;

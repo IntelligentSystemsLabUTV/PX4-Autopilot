@@ -60,6 +60,8 @@ Land::on_activation()
 	pos_sp_triplet->previous.valid = false;
 	mission_apply_limitation(_mission_item);
 	mission_item_to_position_setpoint(_mission_item, &pos_sp_triplet->current);
+  pos_sp_triplet->current.yawspeed = 0.0f;
+  pos_sp_triplet->current.yawspeed_valid = true;
 	pos_sp_triplet->next.valid = false;
 
 	_navigator->set_can_loiter_at_sp(false);

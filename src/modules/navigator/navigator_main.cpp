@@ -237,6 +237,10 @@ void Navigator::run()
 				PX4_ERR("vehicle_command lost, generation %d -> %d", last_generation, _vehicle_command_sub.get_last_generation());
 			}
 
+      if (cmd.command == vehicle_command_s::VEHICLE_CMD_NAV_LAND) {
+        _land_yaw = cmd.param4;
+      }
+
 			if (cmd.command == vehicle_command_s::VEHICLE_CMD_DO_GO_AROUND) {
 
 				// DO_GO_AROUND is currently handled by the position controller (unacknowledged)

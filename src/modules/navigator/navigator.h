@@ -322,6 +322,8 @@ public:
 
 	void 		calculate_breaking_stop(double &lat, double &lon, float &yaw);
 
+  float   get_land_yaw() const { return _land_yaw; }
+
 private:
 
 	struct traffic_buffer_s {
@@ -417,6 +419,8 @@ private:
 							 * if mission mode is inactive, this flag will be cleared after 2 seconds */
 
 	traffic_buffer_s _traffic_buffer{};
+
+  float _land_yaw{0.0f};
 
 	// update subscriptions
 	void params_update();
