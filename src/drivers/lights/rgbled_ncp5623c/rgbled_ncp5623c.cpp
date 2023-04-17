@@ -65,7 +65,7 @@ using namespace time_literals;
 class RGBLED_NCP5623C : public device::I2C, public I2CSPIDriver<RGBLED_NCP5623C>
 {
 public:
-	RGBLED_NCP5623C(const I2CSPIDriverConfig &config);
+	RGBLED_NCP5623C(I2CSPIBusOption bus_option, const int bus, int bus_frequency, const int address, const int order);
 	virtual ~RGBLED_NCP5623C() = default;
 
 	static void print_usage();
@@ -98,11 +98,12 @@ private:
 	uint8_t		_blue{NCP5623_LED_PWM2};
 };
 
-RGBLED_NCP5623C::RGBLED_NCP5623C(const I2CSPIDriverConfig &config) :
-	I2C(config),
-	I2CSPIDriver(config)
+RGBLED_NCP5623C::RGBLED_NCP5623C(I2CSPIBusOption bus_option, const int bus, int bus_frequency, const int address,
+				 const int order) :
+	I2C(DRV_LED_DEVTYPE_RGBLED_NCP5623C, MODULE_NAME, bus, address, bus_frequency),
+	I2CSPIDriver(MODULE_NAME, px4::device_bus_to_wq(get_device_id()), bus_option, bus, address)
 {
-	int ordering = config.custom1;
+	int ordering = order;
 	// ordering is RGB: Hundreds is Red, Tens is green and ones is Blue
 	// 123 would drive the
 	//      R LED from = NCP5623_LED_PWM0
@@ -164,11 +165,6 @@ RGBLED_NCP5623C::probe()
 	if (status == PX4_ERROR) {
 		set_device_address(NCP5623B_ADDR);
 		status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
-
-		if (status == PX4_OK) {
-			_red = NCP5623_LED_PWM2;
-			_blue = NCP5623_LED_PWM0;
-		}
 	}
 
 	return status;
@@ -252,12 +248,33 @@ RGBLED_NCP5623C::print_usage()
 	PRINT_MODULE_USAGE_DEFAULT_COMMANDS();
 }
 
+I2CSPIDriverBase *RGBLED_NCP5623C::instantiate(const BusCLIArguments &cli, const BusInstanceIterator &iterator,
+		int runtime_instance)
+{
+	RGBLED_NCP5623C *instance = new RGBLED_NCP5623C(iterator.configuredBusOption(), iterator.bus(), cli.bus_frequency,
+			cli.i2c_address, cli.custom1);
+
+	if (instance == nullptr) {
+		PX4_ERR("alloc failed");
+		return nullptr;
+	}
+
+	if (instance->init() != PX4_OK) {
+		delete instance;
+		return nullptr;
+	}
+
+	return instance;
+}
+
 extern "C" __EXPORT int rgbled_ncp5623c_main(int argc, char *argv[])
 {
 	using ThisDriver = RGBLED_NCP5623C;
 	BusCLIArguments cli{true, false};
 	cli.default_i2c_frequency = 100000;
 	cli.i2c_address = NCP5623C_ADDR;
+	cli.custom1 = 123;
+	int ch;
 
 	while ((ch = cli.getOpt(argc, argv, "o:")) != EOF) {
 		switch (ch) {
