@@ -186,8 +186,10 @@ void VotedSensorsUpdate::imuPoll(struct sensor_combined_s &raw)
 	}
 
 	// find the best sensor
-	int accel_best_index = _accel.last_best_vote;
-	int gyro_best_index = _gyro.last_best_vote;
+	int accel_best_index = -1;
+	int gyro_best_index = -1;
+	_accel.voter.get_best(hrt_absolute_time(), &accel_best_index);
+	_gyro.voter.get_best(hrt_absolute_time(), &gyro_best_index);
 
 	if (!_parameter_update) {
 		// update current accel/gyro selection, skipped on cycles where parameters update
@@ -219,6 +221,21 @@ void VotedSensorsUpdate::imuPoll(struct sensor_combined_s &raw)
 			checkFailover(_accel, "Accel", events::px4::enums::sensor_type_t::accel);
 			checkFailover(_gyro, "Gyro", events::px4::enums::sensor_type_t::gyro);
 		}
+
+		for (int i = 0; i < MAX_SENSOR_COUNT; i++) {
+			if ((_accel_device_id[i] != 0) && (_accel_device_id[i] == _selection.accel_device_id)) {
+				accel_best_index = i;
+			}
+
+			if ((_gyro_device_id[i] != 0) && (_gyro_device_id[i] == _selection.gyro_device_id)) {
+				gyro_best_index = i;
+			}
+		}
+
+	} else {
+		// use sensor voter to find best if SENS_IMU_MODE is enabled or ORB_ID(sensor_selection) has never published
+		checkFailover(_accel, "Accel");
+		checkFailover(_gyro, "Gyro");
 	}
 
 	// write data for the best sensor to output variables
