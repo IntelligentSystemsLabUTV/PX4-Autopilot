@@ -78,6 +78,7 @@ public:
 
 private:
 	int			send_led_rgb();
+	void			update_params();
 
 	int			write(uint8_t reg, uint8_t data);
 
@@ -160,9 +161,16 @@ RGBLED_NCP5623C::probe()
 	_retries = 2;
 	int status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
 
+	int status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
+
 	if (status == PX4_ERROR) {
 		set_device_address(NCP5623B_ADDR);
 		status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
+
+		if (status == PX4_OK) {
+			_red = NCP5623_LED_PWM2;
+			_blue = NCP5623_LED_PWM0;
+		}
 	}
 
 	return status;
@@ -252,8 +260,6 @@ extern "C" __EXPORT int rgbled_ncp5623c_main(int argc, char *argv[])
 	BusCLIArguments cli{true, false};
 	cli.default_i2c_frequency = 100000;
 	cli.i2c_address = NCP5623C_ADDR;
-	cli.custom1 = 123;
-	int ch;
 
 	while ((ch = cli.getOpt(argc, argv, "o:")) != EOF) {
 		switch (ch) {
