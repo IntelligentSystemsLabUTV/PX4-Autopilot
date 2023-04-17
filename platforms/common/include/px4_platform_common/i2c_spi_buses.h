@@ -110,7 +110,9 @@ class I2CSPIInstance : public ListNode<I2CSPIInstance *>
 {
 public:
 	virtual ~I2CSPIInstance() = default;
+#if defined(CONFIG_I2C)
 	virtual int8_t  get_i2c_address() {return _i2c_address;}
+#endif // CONFIG_I2C
 
 private:
 	I2CSPIInstance(const I2CSPIDriverConfig &config)
