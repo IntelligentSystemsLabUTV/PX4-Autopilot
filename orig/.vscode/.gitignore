@@ -8,8 +8,6 @@ launch.json
 # C/C++ extension does some local caching in this folder
 ipch/
 
-# IntelliSense database files
-*.vc.db*
 browse.vc.db*
 
 *.log
