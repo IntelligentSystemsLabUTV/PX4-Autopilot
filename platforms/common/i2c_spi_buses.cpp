@@ -796,9 +796,11 @@ void I2CSPIDriverBase::print_status()
 {
 #if defined(CONFIG_I2C)
 
-	if (_bus_option == I2CSPIBusOption::I2CExternal || _bus_option == I2CSPIBusOption::I2CInternal) {
+	if (is_i2c_bus) {
 		PX4_INFO("Running on I2C Bus %i, Address 0x%02X", _bus, get_i2c_address());
-		return;
+
+	} else {
+		PX4_INFO("Running on SPI Bus %i", _bus);
 	}
 
 #endif // CONFIG_I2C
