@@ -13,6 +13,132 @@ ARG USER_UID=1000
 ENV DEBIAN_FRONTEND=noninteractive
 
 # IMAGE SETUP START #
+# PX4 START #
+# General dependecies to be installed must be determined by merging the contents of your DUA base
+# unit of choice with the following files:
+# - PX4-Autopilot/Tools/setup/ubuntu.sh
+# - PX4-Autopilot/Tools/setup/requirements.txt
+# - px4_ros_com/scripts/setup_system.bash
+# They are necessary for the development of both PX4 and the microRTPS Bridge.
+# Install PX4 general dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  astyle \
+  libxml2-dev \
+  rsync \
+  python3-setuptools \
+  python3-wheel && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*/apt/lists/*
+
+# Install PX4 Python general dependencies
+RUN yes | pip3 install -U \
+  future \
+  jinja2>=2.8 \
+  jsonschema \
+  kconfiglib \
+  lxml \
+  psutil \
+  pygments \
+  pymavlink \
+  pyulog
+
+# Install NuttX toolchain dependencies
+# Get these from: PX4-Autopilot/Tools/setup/ubuntu.sh and merge with your base unit's contents
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  automake \
+  binutils-dev \
+  bison \
+  flex \
+  g++-multilib \
+	gcc-multilib \
+	gdb-multiarch \
+	genromfs \
+	gettext \
+	gperf \
+  libelf-dev \
+	libexpat-dev \
+	libgmp-dev \
+	libisl-dev \
+	libmpc-dev \
+	libmpfr-dev \
+	libncurses5 \
+	libncurses5-dev \
+	libncursesw5-dev \
+	libtool \
+  texinfo \
+  u-boot-tools \
+  util-linux \
+  vim-common && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*/apt/lists/*
+
+# Download and install NuttX toolchain (pray that this remains online)
+WORKDIR /opt
+RUN wget -O /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2 && \
+  tar -jxf /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 -C /opt/ && \
+  rm /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 && \
+  chgrp -R internal gcc-arm-none-eabi-9-2020-q2-update
+ENV PATH=/opt/gcc-arm-none-eabi-9-2020-q2-update/bin:${PATH}
+WORKDIR /root
+
+# Build and install Foonathan memory allocator
+WORKDIR /opt
+RUN git clone --single-branch --branch 'v1.3.0' https://github.com/eProsima/foonathan_memory_vendor.git && \
+  cd foonathan_memory_vendor && \
+  mkdir build && \
+  cd build && \
+  cmake .. && \
+  cmake --build . --target install && \
+  cd ../.. && \
+  chgrp -R internal foonathan_memory_vendor
+WORKDIR /root
+
+# Install Gradle (also required by microRTPS Bridge)
+ENV GRADLE_VERSION=6.8.3
+ENV GRADLE_PATH=/opt/gradle/gradle-6.8.3/bin
+WORKDIR /opt
+RUN wget -q "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -O /tmp/gradle-$GRADLE_VERSION-bin.zip \
+  && mkdir /opt/gradle \
+  && unzip -d /opt/gradle /tmp/gradle-$GRADLE_VERSION-bin.zip && \
+  rm -rf /tmp/* && \
+  chgrp -R internal gradle
+ENV PATH=/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
+WORKDIR /root
+
+# Build and install Fast-DDS-Gen (also required by microRTPS Bridge)
+WORKDIR /opt
+RUN git clone --single-branch --branch 'v1.0.4-dev' https://github.com/IntelligentSystemsLabUTV/Fast-DDS-Gen.git && \
+  cd Fast-DDS-Gen && \
+  $GRADLE_PATH/gradle assemble && \
+  ./gradlew install && \
+  cd .. && \
+  chgrp -R internal Fast-DDS-Gen
+WORKDIR /root
+
+# Build and install Fast-CDR
+WORKDIR /opt
+RUN git clone --single-branch --branch 'v1.0.27' https://github.com/eProsima/Fast-CDR.git && \
+  cd Fast-CDR && \
+  mkdir build && \
+  cd build && \
+  cmake .. && \
+  make -j$(nproc --all) && \
+  make install -j$(nproc --all) && \
+  cd ../.. && \
+  chgrp -R internal Fast-CDR
+WORKDIR /root
+
+# Build and install Fast-DDS
+WORKDIR /opt
+RUN git clone --single-branch --branch 'v2.10.1' https://github.com/eProsima/Fast-DDS.git && \
+  cd Fast-DDS && \
+  mkdir build && \
+  cd build && \
+  cmake -DTHIRDPARTY=ON .. && \
+  make -j$(nproc --all) && \
+  make install -j$(nproc --all) && \
+  cd ../.. && \
+  chgrp -R internal Fast-DDS
+WORKDIR /root
+# PX4 END #
 # IMAGE SETUP END #
 
 # Create a user with Zsh as shell, hashed password, and add it to the sudoers

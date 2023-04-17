@@ -1,12 +1,12 @@
 {
-  "name": "PX4-x86-dev",
+  "name": "px4-x86-dev",
   "dockerComposeFile": [
     "docker-compose.yaml"
   ],
   // Only start this service
-  "service": "PX4-x86-dev",
+  "service": "px4-x86-dev",
   "runServices": [
-    "PX4-x86-dev"
+    "px4-x86-dev"
   ],
   // Stop container if VS Code is shut down
   "shutdownAction": "stopCompose",
