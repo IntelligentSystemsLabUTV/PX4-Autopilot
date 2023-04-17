@@ -5,7 +5,7 @@
 #
 # April 5, 2023
 
-FROM intelligentsystemslabutv/dua-foundation:x86-base
+FROM intelligentsystemslabutv/dua-foundation:x86-dev
 
 # Change this if you encounter problems with the default user
 ARG USER_UID=1000
@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Create a user with Zsh as shell, hashed password, and add it to the sudoers
 # To generate the hashed password, run:
 #   mkpasswd -m sha-512 -S PASSWORD intelsyslab
-RUN useradd -r -m -s /usr/bin/zsh -u ${USER_UID} -G adm,dialout,internal,plugdev,sudo,tty,video -p '$6$intelsyslab$.O5b0CzTkz48ubblXm2Kpv//5/c0oWTfsLsf6U0HUTnm68ADrfFJj5AmLmaG9nDSo79eGPm09ju/b8bXd8I1q1' neo
+RUN useradd -r -m -s /usr/bin/zsh -u ${USER_UID} -G adm,dialout,internal,plugdev,sudo,tty,video -p '$6$intelsyslab$DVn8eT24upAB4SSgZMpYiv29SewU3ueUjBMaj3ublhs0NKQCItbKNmIOS/Skie.vQbqlfOvlo2Yoeu4OeUypk0' neo
 ENV HOME=/home/neo
 
 # Create workspace directory: host workspaces will be mounted here

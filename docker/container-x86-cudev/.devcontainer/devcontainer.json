@@ -1,12 +1,12 @@
 {
-  "name": "test-armv8-base",
+  "name": "PX4-x86-cudev",
   "dockerComposeFile": [
     "docker-compose.yaml"
   ],
   // Only start this service
-  "service": "test-armv8-base",
+  "service": "PX4-x86-cudev",
   "runServices": [
-    "test-armv8-base"
+    "PX4-x86-cudev"
   ],
   // Stop container if VS Code is shut down
   "shutdownAction": "stopCompose",
