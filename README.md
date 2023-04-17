@@ -1,8 +1,35 @@
 # IntelligentSystemsLabUTV/PX4-Autopilot
 
-## Contents
+## Abstract
 
 **This is a fork of [PX4/PX4-Autopilot](https://github.com/PX4/PX4-Autopilot/tree/main).** The purpose of this fork is to provide a working environment for internal projects of the Intelligent Systems Lab research group.
+
+The layout of this repository is based on the [Distributed Unified Architecture](https://github.com/IntelligentSystemsLabUTV/dua-template).
+
+### Configuring development branches
+
+The `main` branch is meant to track the upstream repository. **Do not push or merge to the `main` branch.**
+
+In case you want to update the fork, you can use the following commands:
+
+```bash
+# Add the "upstream" remote, if it doesn't exist in your local copy
+git remote add upstream git@github.com:PX4/PX4-Autopilot.git
+
+# Fetch the latest changes from the upstream repository
+git fetch upstream
+
+# Merge the changes into your local copy
+git pull --rebase upstream main
+```
+
+Other branches, like `v1.12.3-dev` or `v1.13.3-dev`, are meant to be working environments based on stable releases. When `upstream` has been fetched, a new branch can be created from a tag doing, *e.g.*,
+
+```bash
+git checkout -b v1.13.3-dev v1.13.3
+```
+
+## Contents
 
 This repository holds the [PX4](http://px4.io) flight control solution for drones, with the main applications located in the [src/modules](https://github.com/PX4/PX4-Autopilot/tree/master/src/modules) directory. It also contains the PX4 Drone Middleware Platform, which provides drivers and middleware to run drones.
 
