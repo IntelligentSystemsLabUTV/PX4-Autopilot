@@ -20,16 +20,17 @@ ENV DEBIAN_FRONTEND=noninteractive
 # - PX4-Autopilot/Tools/setup/requirements.txt
 # - px4_ros_com/scripts/setup_system.bash
 # They are necessary for the development of both PX4 and the microRTPS Bridge.
-# Install PX4 general dependencies
+# Install PX4 general dependencies (also required by microRTPS Bridge)
 RUN apt-get update && apt-get install -y --no-install-recommends \
   astyle \
   libxml2-dev \
+  libgstreamer-plugins-base1.0-dev \
   rsync \
   python3-setuptools \
   python3-wheel && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*/apt/lists/*
 
-# Install PX4 Python general dependencies
+# Install PX4 Python general dependencies (also required by microRTPS Bridge)
 RUN yes | pip3 install -U \
   future \
   jinja2>=2.8 \
