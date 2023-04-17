@@ -29,6 +29,8 @@ Other branches, like `v1.12.3-dev` or `v1.13.3-dev`, are meant to be working env
 git checkout -b v1.13.3-dev v1.13.3
 ```
 
+Additional hints can be found [here](https://github.com/readme/guides/configure-git-environment).
+
 ### DUA compatibility
 
 This project has not been developed with DUA originally, so it is not fully compatible with it. DUA provides common, replicable development environments for it, but the high reliance of PX4 on submodules makes it impossible to configure this project as an independent unit that can be included in other projects.
