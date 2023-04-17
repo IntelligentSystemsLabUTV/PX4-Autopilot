@@ -34,3 +34,33 @@ function degrad {
   fi
   echo "$RES"
 }
+
+# Routine to build the PX4 firmware for FMU.
+function buildfmu {
+  cd /home/neo/workspace || return 1
+  make px4_fmu-v5_rtps "-j$(nproc --all)"
+  echo "Flashable binary: build/px4_fmu-v5_rtps/px4_fmu-v5_rtps.px4"
+}
+
+# Routine to build the PX4 SITL target.
+function buildsitl {
+  cd /home/neo/workspace || return 1
+  make px4_sitl_rtps "-j$(nproc --all)"
+  make px4_sitl_rtps sitl_gazebo "-j$(nproc --all)"
+}
+
+# Routine to start the STIL PX4 executable.
+function px4 {
+  export PX4_SIM_MODEL=iris
+  /home/neo/workspace/build/px4_sitl_rtps/bin/px4 \
+    /home/neo/workspace/build/px4_sitl_rtps/etc \
+    -w /home/neo/workspace/build/px4_sitl_rtps/sitl_iris_0 \
+    -s /home/neo/workspace/build/px4_sitl_rtps/etc/init.d-posix/rcS
+}
+
+# Routine to kill all running PX4 and Gazebo instances.
+function px4kill {
+	pkill -x px4
+	pkill gzclient
+	pkill gzserver
+}
