@@ -33,6 +33,10 @@ git checkout -b v1.13.3-dev v1.13.3
 
 This project has not been developed with DUA originally, so it is not fully compatible with it. DUA provides common, replicable development environments for it, but the high reliance of PX4 on submodules makes it impossible to configure this project as an independent unit that can be included in other projects.
 
+The directory structure of the PX4 repository is also not fully compatible with DUA, hence the following changes have been made with respect to the structure of [`dua-template`](https://github.com/IntelligentSystemsLabUTV/dua-template):
+
+* `bin` has been renamed to `dua-bin` to avoid conflicts with the `bin` directory of PX4.
+
 ## Contents
 
 This repository holds the [PX4](http://px4.io) flight control solution for drones, with the main applications located in the [src/modules](https://github.com/PX4/PX4-Autopilot/tree/master/src/modules) directory. It also contains the PX4 Drone Middleware Platform, which provides drivers and middleware to run drones.

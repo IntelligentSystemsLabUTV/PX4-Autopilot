@@ -91,7 +91,7 @@ rules.ninja
 /functional-*
 /generated_params/
 /googletest-*/
-/logs
+#/logs
 /mavsdk_tests
 /test_mixer_multirotor
 /unit-*
