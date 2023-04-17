@@ -161,8 +161,6 @@ RGBLED_NCP5623C::probe()
 	_retries = 2;
 	int status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
 
-	int status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
-
 	if (status == PX4_ERROR) {
 		set_device_address(NCP5623B_ADDR);
 		status = write(NCP5623_LED_CURRENT, NCP5623_LED_OFF);
