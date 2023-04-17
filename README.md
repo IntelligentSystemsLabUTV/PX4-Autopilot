@@ -6,6 +6,22 @@
 
 The layout of this repository is based on the [Distributed Unified Architecture](https://github.com/IntelligentSystemsLabUTV/dua-template).
 
+### Cloning the repository
+
+This repository has a plethora of submodules, so it can be cloned using the following command:
+
+```bash
+git clone URL --recursive
+```
+
+If you forget to clone it recursively, you can always initialize submodules later using the following command:
+
+```bash
+git submodule update --init --recursive
+```
+
+from the repo's root directory (note the `--recursive` flag).
+
 ### Configuring development branches
 
 The `main` branch is meant to track the upstream repository. **Do not push or merge to the `main` branch.**
@@ -31,6 +47,14 @@ git checkout -b v1.13.3-dev v1.13.3
 
 Additional hints can be found [here](https://github.com/readme/guides/configure-git-environment).
 
+**During all of this, submodules may give problems.** Try to clean them completely by running
+
+```bash
+git clean -fdx
+```
+
+or similar commands, inspecting the output of `git status` and `git submodule status` to see what is going on. If you are not sure about what you are doing, you can always delete the repository and clone it again.
+
 ### DUA compatibility
 
 This project has not been developed with DUA originally, so it is not fully compatible with it. DUA provides common, replicable development environments for it, but the high reliance of PX4 on submodules makes it impossible to configure this project as an independent unit that can be included in other projects.
@@ -38,6 +62,15 @@ This project has not been developed with DUA originally, so it is not fully comp
 The directory structure of the PX4 repository is also not fully compatible with DUA, hence the following changes have been made with respect to the structure of [`dua-template`](https://github.com/IntelligentSystemsLabUTV/dua-template):
 
 * `bin` has been renamed to `dua-bin` to avoid conflicts with the `bin` directory of PX4.
+
+### Custom commands
+
+The following commands have been added to the shell's configuration of all development targets to bypass the ones provided by the default [`Makefile`](Makefile):
+
+* `buildfmu`: builds the firmware for the FMUv5 board.
+* `buildsitl`: builds the SITL (Software In The Loop) simulation target.
+* `px4`: runs the PX4 firmware SITL target in Gazebo.
+* `px4kill`: if all goes wrong, kills all active PX4 and Gazebo processes.
 
 ## Contents
 
