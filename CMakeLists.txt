@@ -39,7 +39,7 @@
 #
 # * Common functions should be included in px_base.cmake.
 #
-# * OS/ board specific fucntions should be include in
+# * OS/board specific fucntions should be included in
 #	px_impl_${PX4_PLATFORM}.cmake
 #
 # Formatting

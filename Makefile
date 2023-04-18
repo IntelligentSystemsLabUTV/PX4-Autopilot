@@ -48,7 +48,7 @@ endif
 #
 # Example usage:
 #
-# make px4_fmu-v2_default 			(builds)
+# make px4_fmu-v2_default 			  (builds)
 # make px4_fmu-v2_default upload 	(builds and uploads)
 # make px4_fmu-v2_default test 		(builds and tests)
 #
