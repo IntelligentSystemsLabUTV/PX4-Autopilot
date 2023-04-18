@@ -19,6 +19,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # - PX4-Autopilot/Tools/setup/ubuntu.sh
 # - PX4-Autopilot/Tools/setup/requirements.txt
 # - px4_ros_com/scripts/setup_system.bash
+# and by fixing the inevitable compilation errors that you will get.
 # They are necessary for the development of both PX4 and the microRTPS Bridge.
 # Install PX4 general dependencies (also required by microRTPS Bridge)
 RUN apt-get update && apt-get install -y --no-install-recommends \
