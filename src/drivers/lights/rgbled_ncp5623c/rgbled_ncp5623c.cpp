@@ -65,7 +65,7 @@ using namespace time_literals;
 class RGBLED_NCP5623C : public device::I2C, public I2CSPIDriver<RGBLED_NCP5623C>
 {
 public:
-	RGBLED_NCP5623C(I2CSPIBusOption bus_option, const int bus, int bus_frequency, const int address, const int order);
+	RGBLED_NCP5623C(const I2CSPIDriverConfig &config);
 	virtual ~RGBLED_NCP5623C() = default;
 
 	static void print_usage();
@@ -78,7 +78,6 @@ public:
 
 private:
 	int			send_led_rgb();
-	void			update_params();
 
 	int			write(uint8_t reg, uint8_t data);
 
@@ -98,12 +97,11 @@ private:
 	uint8_t		_blue{NCP5623_LED_PWM2};
 };
 
-RGBLED_NCP5623C::RGBLED_NCP5623C(I2CSPIBusOption bus_option, const int bus, int bus_frequency, const int address,
-				 const int order) :
-	I2C(DRV_LED_DEVTYPE_RGBLED_NCP5623C, MODULE_NAME, bus, address, bus_frequency),
-	I2CSPIDriver(MODULE_NAME, px4::device_bus_to_wq(get_device_id()), bus_option, bus, address)
+RGBLED_NCP5623C::RGBLED_NCP5623C(const I2CSPIDriverConfig &config) :
+	I2C(config),
+	I2CSPIDriver(config)
 {
-	int ordering = order;
+	int ordering = config.custom1;
 	// ordering is RGB: Hundreds is Red, Tens is green and ones is Blue
 	// 123 would drive the
 	//      R LED from = NCP5623_LED_PWM0
@@ -246,25 +244,6 @@ RGBLED_NCP5623C::print_usage()
 	PRINT_MODULE_USAGE_PARAMS_I2C_ADDRESS(0x39);
 	PRINT_MODULE_USAGE_PARAM_INT('o', 123, 123, 321, "RGB PWM Assignment", true);
 	PRINT_MODULE_USAGE_DEFAULT_COMMANDS();
-}
-
-I2CSPIDriverBase *RGBLED_NCP5623C::instantiate(const BusCLIArguments &cli, const BusInstanceIterator &iterator,
-		int runtime_instance)
-{
-	RGBLED_NCP5623C *instance = new RGBLED_NCP5623C(iterator.configuredBusOption(), iterator.bus(), cli.bus_frequency,
-			cli.i2c_address, cli.custom1);
-
-	if (instance == nullptr) {
-		PX4_ERR("alloc failed");
-		return nullptr;
-	}
-
-	if (instance->init() != PX4_OK) {
-		delete instance;
-		return nullptr;
-	}
-
-	return instance;
 }
 
 extern "C" __EXPORT int rgbled_ncp5623c_main(int argc, char *argv[])

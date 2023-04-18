@@ -64,8 +64,5 @@ private:
 	StickAccelerationXY _stick_acceleration_xy;
 	StickYaw _stick_yaw;
 
-	void _ekfResetHandlerPositionXY();
-	void _ekfResetHandlerVelocityXY();
-
 	WeatherVane *_weathervane_yaw_handler{nullptr}; /**< external weathervane library, used to implement a yaw control law that turns the vehicle nose into the wind */
 };

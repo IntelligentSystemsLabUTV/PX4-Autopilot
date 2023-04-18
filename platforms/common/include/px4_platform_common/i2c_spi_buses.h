@@ -113,7 +113,6 @@ public:
 #if defined(CONFIG_I2C)
 	virtual int8_t  get_i2c_address() {return _i2c_address;}
 #endif // CONFIG_I2C
-
 private:
 	I2CSPIInstance(const I2CSPIDriverConfig &config)
 		: _module_name(config.module_name), _bus_option(config.bus_option), _bus(config.bus),
@@ -122,7 +121,6 @@ private:
 		, _i2c_address(config.i2c_address)
 #endif // CONFIG_I2C
 	{}
-
 
 
 	friend class BusInstanceIterator;
