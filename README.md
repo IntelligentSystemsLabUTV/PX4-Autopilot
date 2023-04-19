@@ -82,6 +82,8 @@ Build can be invoked by running the relevant [custom commands](#custom-commands)
 
 Generated executables and flashable binaries will be found in the `build` directory, which is created automatically when building.
 
+To clean after a build, run `make clean` or `git clean -fdx`, **but be careful as this will also remove all untracked files and directories**.
+
 ### Custom commands
 
 The following commands have been added to the shell's configuration of all development targets to bypass the ones provided by the default [`Makefile`](Makefile):
