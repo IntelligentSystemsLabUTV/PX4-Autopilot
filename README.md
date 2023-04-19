@@ -62,14 +62,35 @@ This project has not been developed with DUA originally, so it is not fully comp
 The directory structure of the PX4 repository is also not fully compatible with DUA, hence the following changes have been made with respect to the structure of [`dua-template`](https://github.com/IntelligentSystemsLabUTV/dua-template):
 
 * `bin` has been renamed to `dua-bin` to avoid conflicts with the `bin` directory of PX4.
+* `orig` contains folders and files of the upstream repository which conflicted with DUA's structure.
+
+### Configuring and building a target
+
+This sections is going to give just some hints, for a full reference please refer to the [PX4 User Guide](https://docs.px4.io/master/en/).
+
+The build system is based on CMake, which is what the general [`Makefile`](Makefile) calls. Refer to the [`cmake`](cmake) directory for more information and some hints on how to configure the build to add new modules, drivers, etc.
+
+All build targets are found in the [`boards`](boards) directory. The `.px4board` files there specify which modules, driver, and firwmare components each target must include, the toolchain to use, and other similar settings. Add or modify those files to configure a specific build target.
+
+Currently supported build targets, both with and without the RTPS module, are:
+
+* `fmuv5`: FMU v5 (Pixhawk 4) target.
+* `fmuv6c`: FMU v6C (Pixhawk 6C) target.
+* `sitl`: SITL (Software In The Loop) simulation target.
+
+Build can be invoked by running the relevant [custom commands](#custom-commands) from the root directory of this repository, or by invoking `make` directly with the appropriate arguments.
+
+Generated executables and flashable binaries will be found in the `build` directory, which is created automatically when building.
 
 ### Custom commands
 
 The following commands have been added to the shell's configuration of all development targets to bypass the ones provided by the default [`Makefile`](Makefile):
 
-* `buildfmu`: builds the firmware for the FMUv5 board.
-* `buildsitl`: builds the SITL (Software In The Loop) simulation target.
-* `px4`: runs the PX4 firmware SITL target in Gazebo.
+* `builddefaut`: builds the default targets, *i.e.*, non-RTPS versions of FMU v5, FMU v6C, SITL.
+* `buildfmuv5`: builds the FMU v5 RTPS target.
+* `buildfmuv6c`: builds the FMU v6C RTPS target.
+* `buildsitl`: builds the SITL (Software In The Loop) simulation RTPS target, including Gazebo plugins.
+* `px4`: runs the PX4 firmware SITL RTPS target, *i.e.*, the `px4` executable alone, without any simulator, loading the default `iris` vehicle and predefined (but modifiable) init scripts.
 * `px4kill`: if all goes wrong, kills all active PX4 and Gazebo processes.
 
 ## Contents
