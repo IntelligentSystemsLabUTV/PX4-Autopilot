@@ -35,11 +35,25 @@ function degrad {
   echo "$RES"
 }
 
-# Routine to build the PX4 firmware for FMU.
-function buildfmu {
+# Routine to build the PX4 firmware default targets.
+function builddefault {
+  cd /home/neo/workspace || return 1
+  make px4_fmu-v5_default "-j$(nproc --all)"
+  make px4_fmu-v6c_default "-j$(nproc --all)"
+  make px4_sitl_default "-j$(nproc --all)"
+  make px4_sitl_default sitl_gazebo "-j$(nproc --all)"
+}
+
+# Routine to build the PX4 firmware for FMU v5.
+function buildfmuv5 {
   cd /home/neo/workspace || return 1
   make px4_fmu-v5_rtps "-j$(nproc --all)"
-  echo "Flashable binary: build/px4_fmu-v5_rtps/px4_fmu-v5_rtps.px4"
+}
+
+# Routine to build the PX4 firmware for FMU v6C.
+function buildfmuv6c {
+  cd /home/neo/workspace || return 1
+  make px4_fmu-v6c_rtps "-j$(nproc --all)"
 }
 
 # Routine to build the PX4 SITL target.
