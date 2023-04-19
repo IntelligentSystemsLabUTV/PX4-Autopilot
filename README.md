@@ -84,6 +84,19 @@ Generated executables and flashable binaries will be found in the `build` direct
 
 To clean after a build, run `make clean` or `git clean -fdx`, **but be careful as this will also remove all untracked files and directories**.
 
+#### Disabled modules and components
+
+To reduce the size of the flashable binaries for the FMU targets, some modules and components have been disabled by default, *i.e.*, specifically marked as such in the board configurations. The following modules have been disabled:
+
+* `CAMERA` modules.
+* `HEATER`
+* `HYGROMETERS`
+* `OSD`
+* `ROBOCLAW`
+* Eventual `EXAMPLES` modules.
+* All `AUTOTUNE` modules, since we intend to tune our controllers manually depending on the specific airframes.
+* `MICRODDS_CLIENT`, since this version is still based on RTPS and Micro-XRCE-DDS support is still highly experimental.
+
 ### Custom commands
 
 The following commands have been added to the shell's configuration of all development targets to bypass the ones provided by the default [`Makefile`](Makefile):
