@@ -177,4 +177,5 @@ This work is licensed under the BSD 3-Clause License. See the [`LICENSE`](LICENS
 ## Copyright
 
 Copyright (c) 2012 - 2022, PX4 Development Team
+
 Copyright (c) 2023, Intelligent Systems Lab, University of Rome Tor Vergata
