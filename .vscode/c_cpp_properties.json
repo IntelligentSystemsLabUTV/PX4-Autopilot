@@ -10,6 +10,7 @@
         "${default}",
         "${workspaceFolder}/**",
         "/opt/ros/humble/include/**",
+        "/opt/ros/dua-utils/install/**",
         //"${workspaceFolder}/install/**",
         // Add subdirectories of install here to include interfaces,
         // headers, plugin base headers and everything else you need
