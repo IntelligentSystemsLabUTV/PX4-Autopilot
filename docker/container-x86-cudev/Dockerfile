@@ -77,7 +77,8 @@ WORKDIR /opt
 RUN wget -O /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2 && \
   tar -jxf /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 -C /opt/ && \
   rm /tmp/gcc-arm-none-eabi-9-2020-q2-update-linux.tar.bz2 && \
-  chgrp -R internal gcc-arm-none-eabi-9-2020-q2-update
+  chgrp -R internal gcc-arm-none-eabi-9-2020-q2-update && \
+  chmod -R g+rw gcc-arm-none-eabi-9-2020-q2-update
 ENV PATH=/opt/gcc-arm-none-eabi-9-2020-q2-update/bin:${PATH}
 WORKDIR /root
 
@@ -90,7 +91,8 @@ RUN git clone --single-branch --branch 'v1.3.0' https://github.com/eProsima/foon
   cmake .. && \
   cmake --build . --target install && \
   cd ../.. && \
-  chgrp -R internal foonathan_memory_vendor
+  chgrp -R internal foonathan_memory_vendor && \
+  chmod -R g+rw foonathan_memory_vendor
 WORKDIR /root
 
 # Install Gradle (also required by microRTPS Bridge)
@@ -101,7 +103,8 @@ RUN wget -q "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-
   && mkdir /opt/gradle \
   && unzip -d /opt/gradle /tmp/gradle-$GRADLE_VERSION-bin.zip && \
   rm -rf /tmp/* && \
-  chgrp -R internal gradle
+  chgrp -R internal gradle && \
+  chmod -R g+rw gradle
 ENV PATH=/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
 WORKDIR /root
 
@@ -112,7 +115,8 @@ RUN git clone --single-branch --branch 'v1.0.4-dev' https://github.com/Intellige
   $GRADLE_PATH/gradle assemble && \
   ./gradlew install && \
   cd .. && \
-  chgrp -R internal Fast-DDS-Gen
+  chgrp -R internal Fast-DDS-Gen && \
+  chmod -R g+rw Fast-DDS-Gen
 WORKDIR /root
 
 # Build and install Fast-CDR
@@ -125,7 +129,8 @@ RUN git clone --single-branch --branch 'v1.0.27' https://github.com/eProsima/Fas
   make -j$(nproc --all) && \
   make install -j$(nproc --all) && \
   cd ../.. && \
-  chgrp -R internal Fast-CDR
+  chgrp -R internal Fast-CDR && \
+  chmod -R g+rw Fast-CDR
 WORKDIR /root
 
 # Build and install Fast-DDS
@@ -138,7 +143,8 @@ RUN git clone --single-branch --branch 'v2.10.1' https://github.com/eProsima/Fas
   make -j$(nproc --all) && \
   make install -j$(nproc --all) && \
   cd ../.. && \
-  chgrp -R internal Fast-DDS
+  chgrp -R internal Fast-DDS && \
+  chmod -R g+rw Fast-DDS
 WORKDIR /root
 # PX4 END #
 # IMAGE SETUP END #
