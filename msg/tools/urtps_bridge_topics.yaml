@@ -53,9 +53,11 @@ rtps:
     send:    true
   - msg:     trajectory_waypoint
     send:    true
+  - msg:     battery_status
+    send:    true
   - msg:     vehicle_command
     receive: true
-  - msg:     vehicle_control_mode
+  - msg:     vehicle_command_ack
     send:    true
   - msg:     vehicle_local_position_setpoint
     receive: true
@@ -70,20 +72,12 @@ rtps:
   - msg:     vehicle_visual_odometry # multi-topic / alias of vehicle_odometry
     base:    vehicle_odometry
     receive: true
-  - msg:     vehicle_status
-    send:    true
   - msg:     vehicle_trajectory_waypoint
     receive: true
   - msg:     vehicle_trajectory_waypoint_desired # multi-topic / alias of vehicle_trajectory_waypoint
     base:    vehicle_trajectory_waypoint
     send:    true
-  - msg:     collision_constraints
-    send:    true
   - msg:     onboard_computer_status
-    receive: true
-  - msg:     trajectory_bezier
-    receive: true
-  - msg:     vehicle_trajectory_bezier
     receive: true
   - msg:     timesync_status
     send:    true
@@ -92,4 +86,10 @@ rtps:
   - msg:     vehicle_local_position
     send:    true
   - msg:     vehicle_attitude
+    send:    true
+  - msg:     takeoff_status
+    send:    true
+  - msg:     estimator_status_flags
+    send:    true
+  - msg:     log_message
     send:    true

@@ -25,9 +25,11 @@ rtps:
     send: true
   - msg: TrajectoryWaypoint
     send: true
+  - msg: BatteryStatus
+    send: true
   - msg: VehicleCommand
     receive: true
-  - msg: VehicleControlMode
+  - msg: VehicleCommandAck
     send: true
   - msg: VehicleLocalPositionSetpoint
     receive: true
@@ -42,20 +44,12 @@ rtps:
   - base: VehicleOdometry
     msg: VehicleVisualOdometry
     receive: true
-  - msg: VehicleStatus
-    send: true
   - msg: VehicleTrajectoryWaypoint
     receive: true
   - base: VehicleTrajectoryWaypoint
     msg: VehicleTrajectoryWaypointDesired
     send: true
-  - msg: CollisionConstraints
-    send: true
   - msg: OnboardComputerStatus
-    receive: true
-  - msg: TrajectoryBezier
-    receive: true
-  - msg: VehicleTrajectoryBezier
     receive: true
   - msg: TimesyncStatus
     send: true
@@ -64,4 +58,10 @@ rtps:
   - msg: VehicleLocalPosition
     send: true
   - msg: VehicleAttitude
+    send: true
+  - msg: TakeoffStatus
+    send: true
+  - msg: EstimatorStatusFlags
+    send: true
+  - msg: LogMessage
     send: true
