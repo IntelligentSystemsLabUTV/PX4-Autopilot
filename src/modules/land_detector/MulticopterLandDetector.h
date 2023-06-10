@@ -84,7 +84,7 @@ private:
 	static constexpr hrt_abstime FREEFALL_TRIGGER_TIME_US = 300_ms;
 
 	/** Time interval in us in which wider acceptance thresholds are used after landed. */
-	static constexpr hrt_abstime LAND_DETECTOR_LAND_PHASE_TIME_US = 2_s;
+	static constexpr hrt_abstime LAND_DETECTOR_LAND_PHASE_TIME_US = 5_s;
 
 	/** Distance above ground below which entering ground contact state is possible when distance to ground is available. */
 	static constexpr float DIST_FROM_GROUND_THRESHOLD = 1.0f;
