@@ -1,0 +1,32 @@
+#!/bin/sh
+# shellcheck disable=SC1090,SC1091,SC2086,SC2121
+#
+# @name Stanis LDC23 SITL
+#
+# @type Octorotor coaxial
+#
+# @maintainer Intelligent Systems Lab <isl.torvergata@gmail.com>
+#
+
+# Load default parameters for multicopters
+. ${R}etc/init.d/rc.mc_defaults
+
+# Set mixer
+set MIXER octo_cox
+
+# Use EKF2 as estimator
+param set SYS_MC_EST_GROUP 2
+
+# Use a single EKF instance
+param set EKF2_MULTI_IMU 0
+param set EKF2_MULTI_MAG 0
+param set SENS_IMU_MODE 1
+param set SENS_MAG_MODE 1
+
+param set COM_RCL_EXCEPT 7
+
+# Configure logging
+param set SDLOG_PROFILE 1
+
+# Battery is a 4S LiPo
+param set BAT1_N_CELLS 4

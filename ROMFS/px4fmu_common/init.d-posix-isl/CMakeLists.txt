@@ -1,6 +1,6 @@
 ############################################################################
 #
-#   Copyright (c) 2018 PX4 Development Team. All rights reserved.
+#   Copyright (c) 2020 PX4 Development Team. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -31,11 +31,13 @@
 #
 ############################################################################
 
-add_subdirectory(init.d)
-add_subdirectory(mixers)
-# TODO: make this configurable from the board config, or better combine
-if("${PX4_BOARD}" MATCHES "sitl")
-	add_subdirectory(mixers-sitl)
-	add_subdirectory(init.d-posix)
-  add_subdirectory(init.d-posix-isl)
-endif()
+add_subdirectory(airframes)
+
+px4_add_romfs_files(
+	px4-rc.mavlink
+	px4-rc.params
+	px4-rc.rtps
+	px4-rc.simulator
+	rc.replay
+	rcS
+)
