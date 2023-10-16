@@ -73,11 +73,23 @@ function buildsitl {
 
 # Routine to start the STIL PX4 executable.
 function px4 {
-  export PX4_SIM_MODEL=iris
-  /home/neo/workspace/build/px4_sitl_rtps/bin/px4 \
-    /home/neo/workspace/build/px4_sitl_rtps/etc \
-    -w /home/neo/workspace/build/px4_sitl_rtps/sitl_iris_0 \
-    -s /home/neo/workspace/build/px4_sitl_rtps/etc/init.d-posix/rcS
+  # Check input arguments
+  if [[ $# -eq 1 ]]; then
+    if [[ "$1" == "stanis23" ]]; then
+      export PX4_SIM_MODEL=stanis23
+      /home/neo/workspace/build/px4_sitl_rtps/bin/px4 \
+        /home/neo/workspace/build/px4_sitl_rtps/etc \
+        -w /home/neo/workspace/build/px4_sitl_rtps/sitl_stanis23 \
+        -s /home/neo/workspace/build/px4_sitl_rtps/etc/init.d-posix-isl/rcS
+    fi
+  else
+    # Launch a default simulation with the Iris model
+    export PX4_SIM_MODEL=iris
+    /home/neo/workspace/build/px4_sitl_rtps/bin/px4 \
+      /home/neo/workspace/build/px4_sitl_rtps/etc \
+      -w /home/neo/workspace/build/px4_sitl_rtps/sitl_iris_0 \
+      -s /home/neo/workspace/build/px4_sitl_rtps/etc/init.d-posix/rcS
+  fi
 }
 
 # Routine to kill all running PX4 and Gazebo instances.

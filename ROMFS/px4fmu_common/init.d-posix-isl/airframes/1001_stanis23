@@ -17,16 +17,16 @@ set MIXER octo_cox
 # Use EKF2 as estimator
 param set SYS_MC_EST_GROUP 2
 
-# Use a single EKF instance
-param set EKF2_MULTI_IMU 0
-param set EKF2_MULTI_MAG 0
-param set SENS_IMU_MODE 1
-param set SENS_MAG_MODE 1
+# Multi-EKF (SITL default)
+param set-default EKF2_MULTI_IMU 3
+param set-default SENS_IMU_MODE 0
+param set-default EKF2_MULTI_MAG 2
+param set-default SENS_MAG_MODE 0
 
 param set COM_RCL_EXCEPT 7
 
 # Configure logging
 param set SDLOG_PROFILE 1
 
-# Battery is a 4S LiPo
+# Battery is a 4S LiPo (SITL default)
 param set BAT1_N_CELLS 4
