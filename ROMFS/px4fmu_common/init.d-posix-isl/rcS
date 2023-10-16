@@ -204,7 +204,6 @@ fi
 # Start basic modules
 load_mon start
 battery_simulator start
-fake_gps start
 tone_alarm start
 rc_update start
 manual_control start
