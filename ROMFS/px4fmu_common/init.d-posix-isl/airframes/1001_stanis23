@@ -13,6 +13,8 @@
 
 # Set mixer
 set MIXER octo_cox
+param set-default MAV_TYPE 14
+param set MAV_TYPE 14
 
 # Use EKF2 as estimator
 param set SYS_MC_EST_GROUP 2
