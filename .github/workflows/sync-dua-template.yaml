@@ -102,6 +102,7 @@ jobs:
             -type f \
             -print)"
           _files_bin="$(find ${REPO_TEMPLATE} \
+            ! -path "*/bin/dua_setup.sh" \
             -path "*/bin/*" \
             -type f \
             -print)"
