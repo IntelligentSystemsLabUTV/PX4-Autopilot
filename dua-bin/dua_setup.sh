@@ -246,40 +246,40 @@ function create_target {
   mkdir -p "docker/container-${TARGET}/.devcontainer"
 
   # Copy standard files
-  cp "dua-bin/dua-templates/context/aliases.sh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/bashrc" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/colcon-defaults.yaml.template" "docker/container-${TARGET}/colcon-defaults.yaml"
-  cp "dua-bin/dua-templates/context/commands.sh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/dua_submod.sh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/dua_subtree.sh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/nanorc" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/p10k.zsh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/ros2.sh" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/vimrc" "docker/container-${TARGET}/"
-  cp "dua-bin/dua-templates/context/zshrc" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/aliases.sh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/bashrc" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/colcon-defaults.yaml.template" "docker/container-${TARGET}/colcon-defaults.yaml"
+  cp "bin/dua-templates/context/commands.sh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/dua_submod.sh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/dua_subtree.sh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/nanorc" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/p10k.zsh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/ros2.sh" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/vimrc" "docker/container-${TARGET}/"
+  cp "bin/dua-templates/context/zshrc" "docker/container-${TARGET}/"
 
   # Create and configure the Zsh history directory
   mkdir "docker/container-${TARGET}/zsh_history"
-  cp "dua-bin/dua-templates/context/gitignore-zsh_history" "docker/container-${TARGET}/zsh_history/.gitignore"
+  cp "bin/dua-templates/context/gitignore-zsh_history" "docker/container-${TARGET}/zsh_history/.gitignore"
 
   # Copy and configure devcontainer.json
-  cp "dua-bin/dua-templates/devcontainer.json.template" "docker/container-${TARGET}/.devcontainer/devcontainer.json"
+  cp "bin/dua-templates/devcontainer.json.template" "docker/container-${TARGET}/.devcontainer/devcontainer.json"
   $SED -i "s/SERVICE/${SERVICE}/g" "docker/container-${TARGET}/.devcontainer/devcontainer.json"
 
   # Copy and configure docker-compose.yml
   if [[ "${TARGET}" == "x86-cudev" ]] || [[ "${TARGET}" == "x86-cudev-ai" ]] || [[ "${TARGET}" == "jetsonnano" ]] || [[ "${TARGET}" == "jetsontx2" ]]; then
-    cp "dua-bin/dua-templates/docker-compose.yaml.nvidia.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
+    cp "bin/dua-templates/docker-compose.yaml.nvidia.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
     if [[ "${TARGET}" == "jetsonnano" ]] || [[ "${TARGET}" == "jetsontx2" ]]; then
       $SED -i "/- \/sys:\/sys/a\      - \/run\/jtop.sock:\/run\/jtop.sock" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
     fi
   elif [[ "${TARGET}" == "armv8-dev" ]] && [[ "${MACOS-0}" == "1" ]]; then
-    cp "dua-bin/dua-templates/docker-compose.yaml.macos.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
+    cp "bin/dua-templates/docker-compose.yaml.macos.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
   elif [[ "${TARGET}" == "jetson5" ]] || [[ "${TARGET}" == "jetson5-ai" ]]; then
-    cp "dua-bin/dua-templates/docker-compose.yaml.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
+    cp "bin/dua-templates/docker-compose.yaml.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
     $SED -i "s/ipc: host/&\n    runtime: nvidia/g" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
     $SED -i "/- \/sys:\/sys/a\      - \/run\/jtop.sock:\/run\/jtop.sock" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
   else
-    cp "dua-bin/dua-templates/docker-compose.yaml.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
+    cp "bin/dua-templates/docker-compose.yaml.template" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
   fi
   $SED -i "s/SERVICE/${SERVICE}/g" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
   $SED -i "s/NAME/${NAME}/g" "docker/container-${TARGET}/.devcontainer/docker-compose.yaml"
@@ -287,9 +287,9 @@ function create_target {
 
   # Copy and configure Dockerfile, adding units if requested
   if [[ "${TARGET}" == "armv8-dev" ]] && [[ "${MACOS-0}" == "1" ]]; then
-    cp "dua-bin/dua-templates/Dockerfile.macos.template" "docker/container-${TARGET}/Dockerfile"
+    cp "bin/dua-templates/Dockerfile.macos.template" "docker/container-${TARGET}/Dockerfile"
   else
-    cp "dua-bin/dua-templates/Dockerfile.template" "docker/container-${TARGET}/Dockerfile"
+    cp "bin/dua-templates/Dockerfile.template" "docker/container-${TARGET}/Dockerfile"
   fi
   $SED -i "s/TARGET/${TARGET}/g" "docker/container-${TARGET}/Dockerfile"
   $SED -i "s/HPSW/${HPSW//\//\\/}/g" "docker/container-${TARGET}/Dockerfile"
