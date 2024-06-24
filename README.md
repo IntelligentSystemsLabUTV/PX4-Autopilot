@@ -64,6 +64,10 @@ The directory structure of the PX4 repository is also not fully compatible with 
 * `bin` has been renamed to `dua-bin` to avoid conflicts with the `bin` directory of PX4.
 * `orig` contains folders and files of the upstream repository which conflicted with DUA's structure.
 
+The following files have been modified to address the differences in the directory structure, hence they are not kept updated automatically by the GitHub workflow:
+
+* [`dua-bin/dua_setup.sh`](dua-bin/dua_setup.sh)
+
 ### Configuring and building a target
 
 This sections is going to give just some hints, for a full reference please refer to the [PX4 User Guide](https://docs.px4.io/master/en/).
