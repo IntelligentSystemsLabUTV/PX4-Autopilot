@@ -18,6 +18,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTE: This workflow has been adapted to work in this repository, which is not completely compatible
+# with DUA as pointed out in README.md. The following changes have been performed:
+# - The base branch is a development branch, not master, which is used to sync with upstream.
+# - Here, the bin directory is named dua-bin and has to be addressed accordingly.
+
 name: Sync DUA template
 
 on:
@@ -90,9 +95,14 @@ jobs:
             ! -path "*/.git/*" \
             ! -path "*/.github/workflows/*" \
             ! -path "*/.vscode/*" \
+            ! -path "*/bin/*" \
             ! -name ".gitignore" \
             ! -name "LICENSE" \
             ! -name "README.md" \
+            -type f \
+            -print)"
+          _files_bin="$(find ${REPO_TEMPLATE} \
+            -path "*/bin/*" \
             -type f \
             -print)"
           _deleted_files="$(git -C ${REPO_TEMPLATE} log \
@@ -100,7 +110,12 @@ jobs:
             --name-only \
             --pretty=format: | grep -v '^$')"
           for _deleted_file in ${_deleted_files}; do
-            _file_path="${THIS_REPO}/${_deleted_file#${REPO_TEMPLATE}/}"
+            if [[ ${_deleted_file} == *"bin/"* ]]; then
+              _to_cut="${REPO_TEMPLATE}/bin"
+              _file_path="${THIS_REPO}/dua-bin/${_deleted_file#${_to_cut}/}"
+            else
+              _file_path="${THIS_REPO}/${_deleted_file#${REPO_TEMPLATE}/}"
+            fi
             if [[ -f "${_file_path}" ]]; then
               echo "INFO: Deleting ${_file_path}"
               rm -f "${_file_path}"
@@ -111,6 +126,13 @@ jobs:
             _dst="${THIS_REPO}/${_file#${REPO_TEMPLATE}/}"
             _dst="${_dst%/*}/"
             mkdir -p "${_dst}"
+            echo "INFO: Copying '${_src}' to '${_dst}'"
+            cp "${_src}" "${_dst}"
+          done
+          for _file_bin in ${_files_bin} do
+            _src="${_file_bin}"
+            _to_cut="${REPO_TEMPLATE}/bin"
+            _dst="${THIS_REPO}/dua-bin/${_file_bin#${_to_cut}/}"
             echo "INFO: Copying '${_src}' to '${_dst}'"
             cp "${_src}" "${_dst}"
           done
