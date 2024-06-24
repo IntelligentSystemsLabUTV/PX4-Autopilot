@@ -129,7 +129,7 @@ jobs:
             echo "INFO: Copying '${_src}' to '${_dst}'"
             cp "${_src}" "${_dst}"
           done
-          for _file_bin in ${_files_bin} do
+          for _file_bin in ${_files_bin}; do
             _src="${_file_bin}"
             _to_cut="${REPO_TEMPLATE}/bin"
             _dst="${THIS_REPO}/dua-bin/${_file_bin#${_to_cut}/}"
