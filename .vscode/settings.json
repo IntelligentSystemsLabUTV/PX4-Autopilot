@@ -182,5 +182,6 @@
     "git",
     "gitfs"
   ],
-  "ros.distro": "humble"
+  "ros.distro": "humble",
+  "dotnet.defaultSolution": "disable"
 }
