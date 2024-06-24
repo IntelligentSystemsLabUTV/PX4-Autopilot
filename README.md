@@ -1,10 +1,10 @@
-# IntelligentSystemsLabUTV/PX4-Autopilot
+# dotX-Automation/PX4-Autopilot
 
 ## Abstract
 
-**This is a fork of [PX4/PX4-Autopilot](https://github.com/PX4/PX4-Autopilot/tree/main).** The purpose of this fork is to provide a working environment for internal projects of the Intelligent Systems Lab research group.
+**This is a fork of [PX4/PX4-Autopilot](https://github.com/PX4/PX4-Autopilot/tree/main).**
 
-The layout of this repository is based on the [Distributed Unified Architecture](https://github.com/IntelligentSystemsLabUTV/dua-template).
+The layout of this repository is based on the [Distributed Unified Architecture](https://github.com/dotX-Automation/dua-template).
 
 ### Cloning the repository
 
@@ -57,9 +57,9 @@ or similar commands, inspecting the output of `git status` and `git submodule st
 
 ### DUA compatibility
 
-This project has not been developed with DUA originally, so it is not fully compatible with it. DUA provides common, replicable development environments for it, but the high reliance of PX4 on submodules makes it impossible to configure this project as an independent unit that can be included in other projects.
+This project has not been developed with DUA originally, so it is not fully compatible with it.
 
-The directory structure of the PX4 repository is also not fully compatible with DUA, hence the following changes have been made with respect to the structure of [`dua-template`](https://github.com/IntelligentSystemsLabUTV/dua-template):
+The directory structure of the PX4 repository is also not fully compatible with DUA, hence the following changes have been made with respect to the structure of [`dua-template`](https://github.com/dotX-Automation/dua-template):
 
 * `bin` has been renamed to `dua-bin` to avoid conflicts with the `bin` directory of PX4.
 * `orig` contains folders and files of the upstream repository which conflicted with DUA's structure.
@@ -178,4 +178,4 @@ This work is licensed under the BSD 3-Clause License. See the [`LICENSE`](LICENS
 
 Copyright (c) 2012 - 2022, PX4 Development Team
 
-Copyright (c) 2023, Intelligent Systems Lab, University of Rome Tor Vergata
+Copyright (c) 2024 dotX Automation s.r.l.
