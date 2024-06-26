@@ -50,11 +50,13 @@ __END_DECLS
 
 static bool _led_state[2] = { false, false };
 
+void led_init(void);
 __EXPORT void led_init()
 {
 	PX4_DEBUG("LED_INIT");
 }
 
+void led_on(int led);
 __EXPORT void led_on(int led)
 {
 	if (led == 1 || led == 0) {
@@ -63,6 +65,7 @@ __EXPORT void led_on(int led)
 	}
 }
 
+void led_off(int led);
 __EXPORT void led_off(int led)
 {
 	if (led == 1 || led == 0) {
@@ -71,6 +74,7 @@ __EXPORT void led_off(int led)
 	}
 }
 
+void led_toggle(int led);
 __EXPORT void led_toggle(int led)
 {
 	if (led == 1 || led == 0) {
